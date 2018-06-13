@@ -1,3 +1,4 @@
+
 'use strict';
 
 var express = require('express'),
@@ -6,6 +7,8 @@ var express = require('express'),
 var bodyParser = require('body-parser');
 var cog = require('./app/util/config.js');
 var app = express();
+
+var os = require('os');  
 
 
 
@@ -39,7 +42,7 @@ mongo.connect(cog.databaseUrl, function (err, client) {
 
     routes(app, client,cog);
 
-    app.listen(8000, function () {
+    var server = app.listen(8000, function () {
         console.log('Listening on port http://localhost:8000...');
     });
 

@@ -4,6 +4,8 @@ var ClickHandler = require(process.cwd() + '/app/controllers/clickHandler.server
 var Wxuser = require(process.cwd() + '/app/controllers/wxuser.server.js');
 var Product = require(process.cwd() + '/app/controllers/product.server.js');
 var Upload = require(process.cwd() + '/app/controllers/upload.server.js');
+var Specifications = require(process.cwd() + '/app/controllers/specifications.server.js');
+
 var NAME_API = '/api';
 
 var multer = require('multer');
@@ -36,9 +38,14 @@ module.exports = function (app, client, cog) {
 
     var product = new Product(client, cog);
     app.route(NAME_API + '/pro/insert').post(product.insert);
-
+    app.route(NAME_API + '/pro/find').post(product.find);
+    app.route(NAME_API + '/pro/update').post(product.update);
 
     var upload = new Upload(client, cog, multer);
     app.route(NAME_API + '/upload/insert').post(upload.insert);
     app.route(NAME_API + '/upload/find').post(upload.find);
+
+    var specifications = new Specifications(client, cog);
+    app.route(NAME_API + '/specif/insert').post(specifications.insert);
+    app.route(NAME_API + '/specif/find').post(specifications.find);
 };
