@@ -1,20 +1,17 @@
+
 'use strict';
 
-var http = require('request')
 var ObjectId = require('mongodb').ObjectID;
-function product (client, cog) {
-    var col = client.db(cog.dbName).collection('products');
-    var log = client.db(cog.dbName).collection('operationLog');
+function recommend (client, cog) {
+    var col = client.db(cog.dbName).collection('recommends');
 
-    this.insert = function(req,res){
+    this.insert = function (req,res) {
         var filter = {
-            type: req.body.type ? req.body.type:0,// 类型 1位推荐  2热门
-            title: req.body.title,//标题
-            initPrice: req.body.initPrice,//价格
-            carousel: req.body.carousel,//轮播图
-            parameter:req.body.parameter,//参数
-            richText:req.body.content,//富文本
-            isShow:req.body.isShow   //上下架
+            image:req.body.image,
+            productId:req.body.productId,
+            type: req.body.type,// 类型 1位推荐  2热门
+            sort: req.body.sort,//排序
+            productName:req.body.productName
         }
         var params = global.filterParams(filter);
         col.insertOne(params, function (err, data) {
@@ -23,7 +20,7 @@ function product (client, cog) {
         });
     }
 
-    this.find = function(req,res){
+    this.find = function(req,res) {
         var par = JSON.parse(req.body.params)
         if(par._id){
             par._id = ObjectId(par._id)
@@ -33,6 +30,7 @@ function product (client, cog) {
             res.send({code:1000,result:result})
         })
     }
+
     this.update = function(req,res){
         var ids = JSON.parse(req.body.ids);
         for(var i  in ids){
@@ -43,6 +41,9 @@ function product (client, cog) {
             res.send({code:1000,msg:'更新成功', result:data})  
         })
     }
+    
+
+    
 }
 
-module.exports = product;
+module.exports = recommend;

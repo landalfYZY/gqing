@@ -5,6 +5,7 @@ var Wxuser = require(process.cwd() + '/app/controllers/wxuser.server.js');
 var Product = require(process.cwd() + '/app/controllers/product.server.js');
 var Upload = require(process.cwd() + '/app/controllers/upload.server.js');
 var Specifications = require(process.cwd() + '/app/controllers/specifications.server.js');
+var Recommend = require(process.cwd() + '/app/controllers/recommend.server.js');
 
 var NAME_API = '/api';
 
@@ -48,4 +49,9 @@ module.exports = function (app, client, cog) {
     var specifications = new Specifications(client, cog);
     app.route(NAME_API + '/specif/insert').post(specifications.insert);
     app.route(NAME_API + '/specif/find').post(specifications.find);
+
+    var recommend = new Recommend(client, cog);
+    app.route(NAME_API + '/rec/insert').post(recommend.insert);
+    app.route(NAME_API + '/rec/find').post(recommend.find);
+    app.route(NAME_API + '/rec/update').post(recommend.update);
 };
